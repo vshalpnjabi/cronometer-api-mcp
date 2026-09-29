@@ -1361,8 +1361,12 @@ class CronometerClient:
     WATER_FOOD_ID = 6643  # "Beverages, Water, Tap, Drinking" (USDA)
     WATER_GRAM_MEASURE_ID = 18317
 
+    # Water lives in its own diary group (6), separate from meals --
+    # the Cronometer apps render group 6 as the water tracker.
+    WATER_DIARY_GROUP = 6
+
     def add_water(self, ml: float, day=None) -> dict:
-        """Log water intake in milliliters as a Tap Water serving.
+        """Log water intake in milliliters to the diary's Water group.
 
         Args:
             ml: Milliliters of water (1 g = 1 mL).
@@ -1375,7 +1379,7 @@ class CronometerClient:
             measure_id=self.WATER_GRAM_MEASURE_ID,
             grams=ml,
             day=day,
-            diary_group=0,
+            diary_group=self.WATER_DIARY_GROUP,
         )
 
     # ------------------------------------------------------------------

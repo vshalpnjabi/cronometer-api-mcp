@@ -316,10 +316,11 @@ def add_water(
     ml: float,
     date: str | None = None,
 ) -> str:
-    """Log water intake to the Cronometer diary.
+    """Log water intake to the Cronometer diary's Water tracker.
 
-    Cronometer's API has no dedicated water endpoint, so this logs the
-    USDA "Tap Water, Drinking" food (0 kcal; 1 g = 1 mL) as a serving.
+    Water is logged as the USDA "Tap Water, Drinking" food (0 kcal;
+    1 g = 1 mL) in diary group 6, which the Cronometer apps render as
+    the water tracker rather than a food entry.
 
     Args:
         ml: Milliliters of water to log.
