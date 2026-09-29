@@ -311,6 +311,29 @@ def add_food_entry(
         return _err(e)
 
 
+@mcp.tool(annotations=_WRITE)
+def add_water(
+    ml: float,
+    date: str | None = None,
+) -> str:
+    """Log water intake to the Cronometer diary.
+
+    Cronometer's API has no dedicated water endpoint, so this logs the
+    USDA "Tap Water, Drinking" food (0 kcal; 1 g = 1 mL) as a serving.
+
+    Args:
+        ml: Milliliters of water to log.
+        date: Date to log as YYYY-MM-DD (defaults to today).
+    """
+    try:
+        client = _get_client()
+        day = _parse_date(date)
+        result = client.add_water(ml=ml, day=day)
+        return _ok({"entry": result, "ml": ml})
+    except Exception as e:
+        return _err(e)
+
+
 @mcp.tool(annotations=_DESTRUCTIVE)
 def remove_food_entry(
     entry_ids: list[str],

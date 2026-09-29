@@ -1353,6 +1353,32 @@ class CronometerClient:
         return data
 
     # ------------------------------------------------------------------
+    # Diary: water intake
+    # ------------------------------------------------------------------
+
+    # Cronometer's API has no dedicated water endpoint; water is logged as
+    # a Tap Water food serving (0 kcal, 1 g = 1 mL).
+    WATER_FOOD_ID = 6643  # "Beverages, Water, Tap, Drinking" (USDA)
+    WATER_GRAM_MEASURE_ID = 18317
+
+    def add_water(self, ml: float, day=None) -> dict:
+        """Log water intake in milliliters as a Tap Water serving.
+
+        Args:
+            ml: Milliliters of water (1 g = 1 mL).
+            day: Date to log to. Defaults to today.
+
+        Returns the serving confirmation dict from the API.
+        """
+        return self.add_serving(
+            food_id=self.WATER_FOOD_ID,
+            measure_id=self.WATER_GRAM_MEASURE_ID,
+            grams=ml,
+            day=day,
+            diary_group=0,
+        )
+
+    # ------------------------------------------------------------------
     # Diary: get diary entries
     # ------------------------------------------------------------------
 
